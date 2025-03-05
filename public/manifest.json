@@ -1,0 +1,57 @@
+{
+"theme_color":"#8936FF",
+"background_color":"#2EC6FE",
+"start_url":"/",
+"orientation":"portrait",
+"display":"standalone",
+"dir":"auto",
+"lang":"en-US",
+"name":"hello world",
+"short_name":"hello",
+"id":"/",
+"description":"hello world",
+"scope":"/",
+"sw":true,
+"display_override":["standalone"],
+"serviceworker":{
+    "src":"/sw.js",
+    "scope":"/",
+    "use_cache":"true",
+    "use_dynamic_cache":"true",
+    "use_static_cache":"true",
+    "use_static_cache_in_sw":"true",
+    "use_dynamic_cache_in_sw":"true",
+    "use_cache_in_sw":"true",
+    "use_cache_in_installation":"true",
+    "use_cache_in_fetch":"true",
+    "use_cache_in_activate":"true",
+    "use_cache_in_message":"true",
+    "use_cache_in_push":"true",
+    "use_cache_in_sync":"true",
+    "use_cache_in_notificationclick":"true",
+    "use_cache_in_notificationclose":"true",
+    "use_cache_in_notificationshow":"true"
+},
+"screenshots":[
+    {
+    "src":"/1.png",
+    "sizes":"1861x884",
+    "type":"image/png"
+    },    
+    {
+    "src":"/2.png",
+    "sizes":"1920x1080",
+    "type":"image/png",
+    "form_factor":"wide"
+    }
+],
+"icons":[
+    {"purpose":"maskable",
+    "sizes":"512x512",
+    "src":"/icons/icon512_maskable.png",
+    "type":"image/png"},
+    {"purpose":"any",
+    "sizes":"512x512",
+    "src":"/icons/icon512_maskable.png",
+    "type":"image/png"}]
+}
