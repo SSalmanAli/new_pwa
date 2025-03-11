@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import { useEffect, useState } from "react";
 
 const PWAInstallPrompt = () => {
@@ -35,12 +35,13 @@ const PWAInstallPrompt = () => {
   };
 
   return (
-    showPrompt && (
-      <div className="pwa-banner">
-        <p>Install our app for a better experience!</p>
-        <button onClick={handleInstall}>Install</button>
+    <div className={`pwa-banner ${showPrompt ? "show" : ""}`}>
+      <p>Install our app for a better experience!</p>
+      <div className="pwa-buttons">
+        <button onClick={handleInstall} className="install-btn">Install</button>
+        <button onClick={() => setShowPrompt(false)} className="dismiss-btn">Dismiss</button>
       </div>
-    )
+    </div>
   );
 };
 
