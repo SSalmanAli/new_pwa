@@ -1,15 +1,15 @@
 "use client"
 import { useEffect, useState } from "react";
 
-const PwaToast = () => {
-  const [showToast, setShowToast] = useState(false);
-  const [deferredPrompt, setDeferredPrompt] = useState<any>(null);
+const PWAInstallPrompt = () => {
+  const [deferredPrompt, setDeferredPrompt] = useState(null);
+  const [showPrompt, setShowPrompt] = useState(false);
 
   useEffect(() => {
-    const handleBeforeInstallPrompt = (event: any) => {
-      event.preventDefault(); // Prevent default install banner
+    const handleBeforeInstallPrompt = (event) => {
+      event.preventDefault();
       setDeferredPrompt(event);
-      setShowToast(true);
+      setShowPrompt(true);
     };
 
     window.addEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
@@ -19,25 +19,29 @@ const PwaToast = () => {
     };
   }, []);
 
-  const handleInstall = async () => {
+  const handleInstall = () => {
     if (deferredPrompt) {
       deferredPrompt.prompt();
-      const choiceResult = await deferredPrompt.userChoice;
-      if (choiceResult.outcome === "accepted") {
-        console.log("PWA installed");
-      }
-      setShowToast(false);
-      setDeferredPrompt(null);
+      deferredPrompt.userChoice.then((choiceResult) => {
+        if (choiceResult.outcome === "accepted") {
+          console.log("User accepted PWA install");
+        } else {
+          console.log("User dismissed PWA install");
+        }
+        setDeferredPrompt(null);
+        setShowPrompt(false);
+      });
     }
   };
 
-  return showToast ? (
-    <div className="pwa-toast">
-      <p>Install our app for a better experience!</p>
-      <button onClick={handleInstall}>Install</button>
-      <button onClick={() => setShowToast(false)}>Dismiss</button>
-    </div>
-  ) : null;
+  return (
+    showPrompt && (
+      <div className="pwa-banner">
+        <p>Install our app for a better experience!</p>
+        <button onClick={handleInstall}>Install</button>
+      </div>
+    )
+  );
 };
 
-export default PwaToast;
+export default PWAInstallPrompt;
