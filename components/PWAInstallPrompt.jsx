@@ -7,6 +7,7 @@ const PWAInstallPrompt = () => {
   const [isIOS, setIsIOS] = useState(false);
   const [isStandalone, setIsStandalone] = useState(false);
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     // Detect if iOS
     const userAgent = window.navigator.userAgent.toLowerCase();
@@ -69,7 +70,7 @@ const PWAInstallPrompt = () => {
           style={{ transition: "transform 0.3s ease-in-out" }}
         >
           <p className="text-sm">
-            Install this app: Tap <span className="text-blue-400">Share</span> and select <b>"Add to Home Screen"</b>
+            Install this app: Tap <span className="text-blue-400">Share</span> and select <b>Add to Home Screen</b>
           </p>
           <button onClick={() => setShowPrompt(false)} className="bg-gray-600 text-white px-4 py-2 rounded">
             Dismiss
