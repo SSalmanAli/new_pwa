@@ -1,25 +1,33 @@
 "use client";
 import { useEffect, useState } from "react";
 
+interface BeforeInstallPromptEvent extends Event {
+  prompt: () => Promise<void>;
+  userChoice: Promise<{ outcome: "accepted" | "dismissed" }>;
+}
+
 const PWAInstallPrompt = () => {
-  const [deferredPrompt, setDeferredPrompt] = useState<any>(null);
+  const [deferredPrompt, setDeferredPrompt] = useState<BeforeInstallPromptEvent | null>(null);
   const [showPrompt, setShowPrompt] = useState(false);
   const [isIOS, setIsIOS] = useState(false);
   const [isStandalone, setIsStandalone] = useState(false);
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
+    if (typeof window === "undefined") return;
+
     // Detect if iOS
     const userAgent = window.navigator.userAgent.toLowerCase();
     setIsIOS(/iphone|ipad|ipod/.test(userAgent));
 
     // Detect if PWA is already installed
-    setIsStandalone(window.matchMedia("(display-mode: standalone)").matches);
+    setIsStandalone(
+      window.matchMedia("(display-mode: standalone)").matches || window.navigator.standalone === true
+    );
 
     // Handle Android PWA prompt
-    const handleBeforeInstallPrompt = (event) => {
+    const handleBeforeInstallPrompt = (event: Event) => {
       event.preventDefault();
-      setDeferredPrompt(event);
+      setDeferredPrompt(event as BeforeInstallPromptEvent);
       setShowPrompt(true);
     };
 
