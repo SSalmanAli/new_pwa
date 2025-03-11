@@ -16,7 +16,7 @@ const PWAInstallPrompt = () => {
     setIsStandalone(window.matchMedia("(display-mode: standalone)").matches);
 
     // Handle Android PWA prompt
-    const handleBeforeInstallPrompt = (event: any) => {
+    const handleBeforeInstallPrompt = (event) => {
       event.preventDefault();
       setDeferredPrompt(event);
       setShowPrompt(true);
