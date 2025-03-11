@@ -1,15 +1,15 @@
 "use client"
 import { useEffect, useState } from "react";
 
-const PWAInstallPrompt = () => {
-  const [deferredPrompt, setDeferredPrompt] = useState(null);
-  const [showPrompt, setShowPrompt] = useState(false);
+const PwaToast = () => {
+  const [showToast, setShowToast] = useState(false);
+  const [deferredPrompt, setDeferredPrompt] = useState<any>(null);
 
   useEffect(() => {
-    const handleBeforeInstallPrompt = (event) => {
-      event.preventDefault();
+    const handleBeforeInstallPrompt = (event: any) => {
+      event.preventDefault(); // Prevent default install banner
       setDeferredPrompt(event);
-      setShowPrompt(true);
+      setShowToast(true);
     };
 
     window.addEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
@@ -19,30 +19,25 @@ const PWAInstallPrompt = () => {
     };
   }, []);
 
-  const handleInstall = () => {
+  const handleInstall = async () => {
     if (deferredPrompt) {
       deferredPrompt.prompt();
-      deferredPrompt.userChoice.then((choiceResult) => {
-        if (choiceResult.outcome === "accepted") {
-          console.log("User accepted PWA install");
-        } else {
-          console.log("User dismissed PWA install");
-        }
-        setDeferredPrompt(null);
-        setShowPrompt(false);
-      });
+      const choiceResult = await deferredPrompt.userChoice;
+      if (choiceResult.outcome === "accepted") {
+        console.log("PWA installed");
+      }
+      setShowToast(false);
+      setDeferredPrompt(null);
     }
   };
 
-  return (
-    showPrompt && (
-  <div className="pwa-toast">
+  return showToast ? (
+    <div className="pwa-toast">
       <p>Install our app for a better experience!</p>
       <button onClick={handleInstall}>Install</button>
       <button onClick={() => setShowToast(false)}>Dismiss</button>
     </div>
-    )
-  );
+  ) : null;
 };
 
-export default PWAInstallPrompt;
+export default PwaToast;
