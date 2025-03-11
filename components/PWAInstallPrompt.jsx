@@ -36,10 +36,11 @@ const PWAInstallPrompt = () => {
 
   return (
     showPrompt && (
-      <div className="pwa-banner">
-        <p>Install our app for a better experience!</p>
-        <button onClick={handleInstall}>Install</button>
-      </div>
+  <div className="pwa-toast">
+      <p>Install our app for a better experience!</p>
+      <button onClick={handleInstall}>Install</button>
+      <button onClick={() => setShowToast(false)}>Dismiss</button>
+    </div>
     )
   );
 };
