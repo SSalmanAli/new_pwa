@@ -57,7 +57,7 @@ const PWAInstallPrompt = () => {
           </h2>
       <div className="pwa-buttons">
         <button onClick={handleInstall} className="install-btn">Install</button>
-        <button onClick={() => setShowPrompt(false)} className="dismiss-btn">Dismiss</button>
+        <button onClick={() => setShowPrompt(false)} className="dismiss-btn md:hidden">Dismiss</button>
       </div>
     </div>
   );
