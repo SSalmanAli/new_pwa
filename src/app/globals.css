@@ -82,6 +82,11 @@ body {
   background: #DA0D7C;
 }
 
+@media (max-width: 768px) {
+  .dismiss-btn {
+    display: none;
+  }
+}
 
 @layer utilities {
   .text-balance {
