@@ -1,33 +1,15 @@
+
 "use client";
 import { useEffect, useState } from "react";
 
-interface BeforeInstallPromptEvent extends Event {
-  prompt: () => Promise<void>;
-  userChoice: Promise<{ outcome: "accepted" | "dismissed" }>;
-}
-
 const PWAInstallPrompt = () => {
-  const [deferredPrompt, setDeferredPrompt] = useState<BeforeInstallPromptEvent | null>(null);
+  const [deferredPrompt, setDeferredPrompt] = useState(null);
   const [showPrompt, setShowPrompt] = useState(false);
-  const [isIOS, setIsIOS] = useState(false);
-  const [isStandalone, setIsStandalone] = useState(false);
 
   useEffect(() => {
-    if (typeof window === "undefined") return;
-
-    // Detect if iOS
-    const userAgent = window.navigator.userAgent.toLowerCase();
-    setIsIOS(/iphone|ipad|ipod/.test(userAgent));
-
-    // Detect if PWA is already installed
-    setIsStandalone(
-      window.matchMedia("(display-mode: standalone)").matches || window.navigator.standalone === true
-    );
-
-    // Handle Android PWA prompt
-    const handleBeforeInstallPrompt = (event: Event) => {
+    const handleBeforeInstallPrompt = (event) => {
       event.preventDefault();
-      setDeferredPrompt(event as BeforeInstallPromptEvent);
+      setDeferredPrompt(event);
       setShowPrompt(true);
     };
 
@@ -44,6 +26,8 @@ const PWAInstallPrompt = () => {
       deferredPrompt.userChoice.then((choiceResult) => {
         if (choiceResult.outcome === "accepted") {
           console.log("User accepted PWA install");
+        } else {
+          console.log("User dismissed PWA install");
         }
         setDeferredPrompt(null);
         setShowPrompt(false);
@@ -52,40 +36,30 @@ const PWAInstallPrompt = () => {
   };
 
   return (
-    <>
-      {/* Android: Auto-popup install toast */}
-      {!isStandalone && !isIOS && showPrompt && (
-        <div
-          className="fixed bottom-0 left-0 w-full bg-gray-800 text-white p-4 flex items-center justify-between transition-transform translate-y-0"
-          style={{ transition: "transform 0.3s ease-in-out" }}
-        >
-          <p className="text-sm">Install our app for a better experience!</p>
-          <div>
-            <button onClick={handleInstall} className="bg-blue-500 text-white px-4 py-2 rounded mr-2">
-              Install
-            </button>
-            <button onClick={() => setShowPrompt(false)} className="bg-gray-600 text-white px-4 py-2 rounded">
-              Dismiss
-            </button>
-          </div>
-        </div>
-      )}
-
-      {/* iOS: Custom Install Guide */}
-      {!isStandalone && isIOS && (
-        <div
-          className="fixed bottom-0 left-0 w-full bg-gray-800 text-white p-4 flex items-center justify-between transition-transform translate-y-0"
-          style={{ transition: "transform 0.3s ease-in-out" }}
-        >
-          <p className="text-sm">
-            Install this app: Tap <span className="text-blue-400">Share</span> and select <b>Add to Home Screen</b>
-          </p>
-          <button onClick={() => setShowPrompt(false)} className="bg-gray-600 text-white px-4 py-2 rounded">
-            Dismiss
-          </button>
-        </div>
-      )}
-    </>
+    <div className={`pwa-banner ${showPrompt ? "show" : ""}`}>
+                <h2 className="mb-8 px-2 text-xl sm:text-xl tracking-tight font-bold text-gray-900 dark:text-white">
+            Install our{" "}
+            <span
+              className={
+                "bg-clip-text bg-gradient-to-r from-indigo-400 to-blue-300 text-transparent"
+              }
+            >
+              App {" "}
+            </span>
+             for a Better{" "}
+            <span
+              className={
+                "bg-clip-text bg-gr-primary text-transparent"
+              }
+            >
+               Experience
+            </span>{" "}
+          </h2>
+      <div className="pwa-buttons">
+        <button onClick={handleInstall} className="install-btn">Install</button>
+        <button onClick={() => setShowPrompt(false)} className="dismiss-btn">Dismiss</button>
+      </div>
+    </div>
   );
 };
 
