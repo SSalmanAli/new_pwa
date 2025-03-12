@@ -19,15 +19,23 @@ body {
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+
+/*PWA Custom button styling*/
 .pwa-banner {
   position: fixed;
   bottom: -100px; /* Hidden initially */
   left: 50%;
   transform: translateX(-50%);
   width: 90%;
+  z-index: 1000;
+  opacity: 0.5;
   max-width: 400px;
-  background: #333;
-  color: white;
+  background: #1D1A27;
+  color: #C742F7;
+  font-size: large;
+  background: rgba(29, 26, 39, 0.1); /* Semi-transparent background */
+  backdrop-filter: blur(5px); /* Blur effect */
   padding: 15px;
   border-radius: 10px;
   text-align: center;
@@ -44,12 +52,12 @@ body {
 .pwa-buttons {
   display: flex;
   justify-content: center;
-  gap: 10px;
+  gap: 30px;
   margin-top: 10px;
 }
 
 .install-btn {
-  background: #4caf50;
+  background: #50ADD7;
   color: white;
   border: none;
   padding: 8px 16px;
@@ -58,7 +66,7 @@ body {
 }
 
 .dismiss-btn {
-  background: #f44336;
+  background: #CB4EA7;
   color: white;
   border: none;
   padding: 8px 16px;
@@ -67,11 +75,11 @@ body {
 }
 
 .install-btn:hover {
-  background: #45a049;
+  background:#3B82F6;
 }
 
 .dismiss-btn:hover {
-  background: #d32f2f;
+  background: #DA0D7C;
 }
 
 
